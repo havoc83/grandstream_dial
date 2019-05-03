@@ -24,7 +24,8 @@ def main():
         sys.exit(1)
 
     config = configparser.ConfigParser()
-    conf_file = config.read('dial_config.ini')
+    conf_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'dial_config.ini')
+    conf_file = config.read(conf_path)
 
     if not conf_file:
         print('Configuration file not found, please ensure file is located in {}'.format(os.getcwd()))

@@ -11,10 +11,8 @@ def parse_phone(number, send):
         sys.exit(1)
     else:
         prep_number = list(number)
-        print(prep_number)
         if send:
             prep_number.append('SEND')
-        print(':'.join(prep_number))
         return ':'.join(prep_number)
 
 def main():

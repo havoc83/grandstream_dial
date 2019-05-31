@@ -15,6 +15,7 @@ def parse_phone(number, send):
             prep_number.append('SEND')
         return ':'.join(prep_number)
 
+
 def main():
     """
     This takes care of sending digits to your grandstream phone and optionally dialing.
@@ -24,7 +25,8 @@ def main():
         sys.exit(1)
 
     config = configparser.ConfigParser()
-    conf_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'dial_config.ini')
+    conf_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                             'dial_config.ini')
     conf_file = config.read(conf_path)
 
     if not conf_file:
@@ -60,10 +62,12 @@ def main():
 
     req = urllib.request.Request('http://{}/cgi-bin/api-send_key?passcode={}&keys={}'.format(host, passcode, num),
                                  headers=req_header)
-
-    with urllib.request.urlopen(req) as response:
-        if response.status != 200:
-            print('Request returned a {}:{} please check your configuration and try again.'.format(response.status, response.reason))
+    try:
+        with urllib.request.urlopen(req) as response:
+            if response.status != 200:
+                print('Request returned a {}:{} please check your configuration and try again.'.format(response.status, response.reason))
+    except urllib.error.URLError:
+        print('There was an error with the url that accessed.  Attempted to access {}'.format(req))
 
 if __name__ == "__main__":
     main()
